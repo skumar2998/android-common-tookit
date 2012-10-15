@@ -58,7 +58,7 @@ public class HashEncrypt {
 			}
 			encryptMsg = instance.digest(content.getBytes());
 		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("Unbelievabl! How can u bypass the method ? No such algorithm !");
+			throw new RuntimeException("Unbelievabl! How can u passby the method ? No such algorithm !");
 		}
 		StringBuffer buffer = new StringBuffer();
 		for(int i=0; i<encryptMsg.length; i++) {

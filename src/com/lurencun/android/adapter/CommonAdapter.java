@@ -15,8 +15,6 @@
  */
 package com.lurencun.android.adapter;
 
-import java.util.LinkedList;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,31 +31,18 @@ import android.view.ViewGroup;
  */
 public class CommonAdapter<T> extends AbstractAdapter<T> {
 
-	/** View缓存 **/
-	private LinkedList<View> mViewCache = new LinkedList<View>();
-	
-	/**
-	 * </br><b>description : </b>	创建对象
-	 * @param inflater
-	 * @param creator
-	 */
 	public CommonAdapter(LayoutInflater inflater, ViewCreator<T> creator) {
 		super(inflater, creator);
 	}
 
-	/* (non-Javadoc)
-	 * @see android.widget.Adapter#getView(int, android.view.View, android.view.ViewGroup)
-	 */
 	@Override
-	public View getView(int pos, View currentView, ViewGroup parent) {
-		if(null == currentView){
-			View view = mCreator.createView(mInflater, pos, mDataCache.get(pos));
-			mViewCache.add(view);
-			return view;
+	public View getView(int pos, View convertView, ViewGroup parent) {
+		if(null == convertView){
+			return mCreator.createView(mInflater, pos, mDataCache.get(pos));
 		}else{
-			return currentView;
+			mCreator.updateView(convertView, pos, mDataCache.get(pos));
+			return convertView;
 		}
-		
 	}
 
 }
