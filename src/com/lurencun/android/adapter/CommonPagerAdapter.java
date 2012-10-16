@@ -1,6 +1,6 @@
 package com.lurencun.android.adapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -19,7 +19,7 @@ import android.view.ViewGroup;
  */
 public class CommonPagerAdapter<T> extends PagerAdapter {
 
-	private ArrayList<T> mDataSet ;
+	private List<T> mDataSet ;
 	
 	private LayoutInflater mInflater;
 	
@@ -49,12 +49,16 @@ public class CommonPagerAdapter<T> extends PagerAdapter {
 		return mDataSet == null ? 0 : mDataSet.size();
 	}
 	
-	public void update(ArrayList<T> ds){
+	public void update(List<T> ds){
 		mDataSet = ds;
 		notifyDataSetChanged();
 	}
 	
-	public void add(ArrayList<T> extraData){
+	public void add(List<T> extraData){
+		if(mDataSet == null){
+			update(extraData);
+			return;
+		}
 		mDataSet.addAll(extraData);
 		notifyDataSetChanged();
 	}
