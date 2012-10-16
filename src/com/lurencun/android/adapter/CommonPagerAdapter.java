@@ -25,6 +25,8 @@ public class CommonPagerAdapter<T> extends PagerAdapter {
 	
 	private ViewCreator<T> mCreator;
 	
+	private boolean mIsForceUpdateView = false;
+	
 	public CommonPagerAdapter(LayoutInflater inf,ViewCreator<T> creator){
 		mCreator = creator;
 		mInflater = inf;
@@ -34,7 +36,8 @@ public class CommonPagerAdapter<T> extends PagerAdapter {
 	public void destroyItem(ViewGroup container, int position, Object object) {
 		View view = (View) object;
 		container.removeView(view);
-		mCreator.releaseView(view, mDataSet.get(position));
+		int index = Math.max(0, Math.min(position, mDataSet.size() - 1));
+		mCreator.releaseView(view, mDataSet.get(index));
 	}
 
 	@Override
@@ -49,6 +52,18 @@ public class CommonPagerAdapter<T> extends PagerAdapter {
 		return mDataSet == null ? 0 : mDataSet.size();
 	}
 	
+	public void toggleForceUpdate(boolean isForce){
+		mIsForceUpdateView = isForce;
+	}
+	
+	@Override
+	public int getItemPosition(Object object) {
+		if(mIsForceUpdateView){
+			return POSITION_NONE;
+		}
+		return super.getItemPosition(object);
+	}
+
 	public void update(List<T> ds){
 		mDataSet = ds;
 		notifyDataSetChanged();
