@@ -40,9 +40,10 @@ public class CommonAdapter<T> extends AbstractAdapter<T> {
 		if(null == convertView){
 			return mCreator.createView(mInflater, pos, mDataCache.get(pos));
 		}else{
-			mCreator.updateView(convertView, pos, mDataCache.get(pos));
+			//mCreator.updateView(convertView, pos, mDataCache.get(pos));
 			return convertView;
 		}
+		
 	}
 
 }
