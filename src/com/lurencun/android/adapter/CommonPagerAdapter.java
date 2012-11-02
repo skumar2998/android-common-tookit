@@ -20,7 +20,7 @@ public class CommonPagerAdapter<T> extends PagerAdapter {
 	private LayoutInflater mInflater;
 	private ViewCreator<T> mCreator;
 	private View mCurrentView;
-	
+	private T mCurrentDataSource;
 	private boolean mIsForceUpdateView = false;
 	
 	public CommonPagerAdapter(LayoutInflater inf,ViewCreator<T> creator){
@@ -30,6 +30,7 @@ public class CommonPagerAdapter<T> extends PagerAdapter {
 	
 	@Override
 	public void setPrimaryItem(ViewGroup container, int position, Object object) {
+		mCurrentDataSource = mDataSet == null ? null : mDataSet.get(position);
 	    mCurrentView = (View)object;
 	}
 	
@@ -55,6 +56,10 @@ public class CommonPagerAdapter<T> extends PagerAdapter {
 	
 	public View getCurrentView(){
 		return mCurrentView;
+	}
+	
+	public T getCurrentDataSource(){
+		return mCurrentDataSource;
 	}
 	
 	public void toggleForceUpdate(boolean isForce){
