@@ -1,46 +1,30 @@
-/**
- * Copyright (C) 2012 ToolkitForAndroid Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.lurencun.android.common;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 
 /**
- * <ul>
- * <li><b>name : </b>       CommonReg       </li>
- * <li><b>description :</b> 对InputStream进行各类型数据的转换。转换类型包括Drawabel,Bitmap,String,byte[]等。              </li>
- * <li><b>author : </b>     桥下一粒砂           </li>
- * <li><b>e-mail : </b>     chenyoca@gmail.com  </li>
- * <li><b>weibo : </b>      @桥下一粒砂          </li>
- * <li><b>date : </b>       2012-7-8        </li>
- * </ul>
+ * @author : 桥下一粒砂
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-10-23
+ * @desc   : 对InputStream进行各类型数据的转换。转换类型包括Drawabel,Bitmap,String,byte[]等。
  */
 public class InputStreamUtil {
 	
 	/**
-	 * <b>description :</b>	将InputStream流转换成BitmapDrawable。BitmapDrawable是Drawable的直接子类，可用于Drawable对象
-	 * @param is 			InputStream对象
-	 * @return 			BitmapDrawable对象
-	 * @throws 			IOException 
+	 * 将InputStream流转换成BitmapDrawable。BitmapDrawable是Drawable的直接子类，可用于Drawable对象
+	 * @param is
+	 * @return
+	 * @throws IOException
 	 */
 	public static BitmapDrawable toBitmapDrawable(InputStream is) throws IOException{
 		BitmapDrawable bitmapDrawable = new BitmapDrawable(is);
@@ -49,9 +33,9 @@ public class InputStreamUtil {
 	}
 	
 	/**
-	 * </br><b>description :</b>	将InputStream流转换成Bitmap对象。
-	 * @param is 					InputStream对象
-	 * @return 					Bitmap对象
+	 * 将InputStream流转换成Bitmap对象。
+	 * @param is	InputStream对象
+	 * @return	Bitmap对象
 	 * @throws IOException 
 	 */
 	public static Bitmap toBitmap(InputStream is) throws IOException{
@@ -89,6 +73,27 @@ public class InputStreamUtil {
 	}
 	
 	/**
+	 * 转换为字符串
+	 * @param is
+	 * @param enc
+	 * @return
+	 * @throws IOException
+	 */
+	public static String convertToString(InputStream is,String encoding) throws IOException{
+	    if( null == is ) return null;
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is,encoding));
+		char cache[] = new char[2*512];
+		int cacheSize = -1;
+		StringBuffer buffer = new StringBuffer();
+		while((cacheSize = reader.read(cache)) != -1){
+			buffer.append(new String(cache, 0, cacheSize));
+			cacheSize = reader.read(cache);
+		}
+		is.close();
+		return buffer.toString();
+	}
+	
+	/**
 	 * <b>description :</b>		将InputStream转换成字节数组。
 	 * @param is 				InputStream对象
 	 * @return 				字节数组
@@ -103,5 +108,47 @@ public class InputStreamUtil {
         }
 		is.close();
 		return buffer.toByteArray();
+	}
+	
+	public static String getStreamEncoding(InputStream is) throws IOException{
+		BufferedInputStream bis = new BufferedInputStream(is);
+		bis.mark(2);
+		byte[] first3bytes = new byte[3];
+		bis.read(first3bytes);
+		bis.reset();
+		String encoding = null;
+		if (first3bytes[0] == (byte) 0xEF && first3bytes[1] == (byte) 0xBB && first3bytes[2] == (byte) 0xBF) {
+			encoding = "utf-8";
+		} else if (first3bytes[0] == (byte) 0xFF && first3bytes[1] == (byte) 0xFE) {
+			encoding = "unicode";
+		} else if (first3bytes[0] == (byte) 0xFE && first3bytes[1] == (byte) 0xFF) {
+			encoding = "utf-16be";
+		} else if (first3bytes[0] == (byte) 0xFF && first3bytes[1] == (byte) 0xFF) {
+			encoding = "utf-16le";
+		} else {
+			encoding = "GBK";
+		}
+		return encoding;
+	}
+	
+	private final static int FIND_CHARSET_CACHE_SIZE = 4 * 1024;
+	private final static String CHARSET_REGX = "<meta.*charset=\"?([a-zA-Z0-9-_/]+)\"?";
+	
+	public static String getEncodingFromHTML(InputStream is) throws IOException{
+		BufferedInputStream bis = new BufferedInputStream(is);
+        bis.mark(FIND_CHARSET_CACHE_SIZE);
+        byte[] cache = new byte[FIND_CHARSET_CACHE_SIZE];
+        bis.read(cache);
+        bis.reset();
+        return getHtmlCharset(new String(cache));
+	}
+	
+	public static String getHtmlCharset(String content){
+		String encoding = null;
+		 Matcher m = Pattern.compile(CHARSET_REGX).matcher(content);
+		 if(m.find()){
+        	encoding = m.group(1);
+		 }
+        return encoding;
 	}
 }

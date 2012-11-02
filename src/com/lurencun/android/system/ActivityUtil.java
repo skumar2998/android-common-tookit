@@ -166,15 +166,21 @@ public final class ActivityUtil {
 			switchTo(activity, intent);
 	}
 	
+	public interface MessageFilter{
+		String filter(String msg);
+	}
+	public static MessageFilter msgFilter;
+	
 	/**
 	 * 显示Toast消息，并保证运行在UI线程中
 	 * @param activity
 	 * @param message
 	 */
 	public static void show(final Activity activity,final String message){
+		final String msg = msgFilter != null ? msgFilter.filter(message) : message;
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+				Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -185,9 +191,10 @@ public final class ActivityUtil {
 	 * @param message
 	 */
 	public static void showL(final Activity activity,final String message){
+		final String msg = msgFilter != null ? msgFilter.filter(message) : message;
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+				Toast.makeText(activity, msg, Toast.LENGTH_LONG).show();
 			}
 		});
 	}

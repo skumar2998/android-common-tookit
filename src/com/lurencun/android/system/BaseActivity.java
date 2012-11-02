@@ -1,18 +1,3 @@
-/**
- * Copyright (C) 2012 TookitForAndroid Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.lurencun.android.system;
 
 import java.util.Stack;
@@ -21,14 +6,10 @@ import android.app.Activity;
 import android.content.Context;
 
 /**
- * <ul>
- * <li><b>name : </b>       BaseActivity</li>
- * <li><b>description :</b> Activity特性辅助工具</li>
- * <li><b>author : </b>     桥下一粒砂           </li>
- * <li><b>e-mail : </b>     chenyoca@gmail.com  </li>
- * <li><b>weibo : </b>      @桥下一粒砂          </li>
- * <li><b>date : </b>       2012-7-8 下午5:29:41</li>
- * </ul>
+ * @author : 桥下一粒砂
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-10-23
+ * @desc   : Activity特性辅助工具
  */
 public class BaseActivity {
 
