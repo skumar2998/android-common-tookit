@@ -1,18 +1,3 @@
-/**
- * Copyright (C) 2012 ToolkitForAndroid Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.lurencun.android.adapter;
 
 import java.util.List;
@@ -22,14 +7,10 @@ import android.widget.AbsListView;
 import android.widget.ListAdapter;
 
 /**
- * <ul>
- * <li><b>name : </b>		HolderViewFiller		</li>
- * <li><b>description :</b>	可继承自AbsListView进行子项填充的工具类。主要用于ListView，GridView等填充。</li>
- * <li><b>author : </b>		桥下一粒砂			</li>
- * <li><b>e-mail : </b>		chenyoca@gmail.com	</li>
- * <li><b>weibo : </b>		@桥下一粒砂			</li>
- * <li><b>date : </b>		2012-7-14 上午1:33:59		</li>
- * </ul>
+ * @author : 桥下一粒砂
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-7-14
+ * @desc   : 可继承自AbsListView进行子项填充的工具类。主要用于ListView，GridView等填充。
  * @param <T>
  */
 public class HolderViewFiller<T> {
@@ -61,7 +42,6 @@ public class HolderViewFiller<T> {
 	/**
 	 * </br><b>description :</b>添加数据集 
 	 * </br><b>time :</b> 2012-7-18 下午8:16:38
-	 * 
 	 * @param view
 	 * @param set
 	 */

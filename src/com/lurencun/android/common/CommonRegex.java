@@ -1,31 +1,12 @@
-/**
- * Copyright (C) 2012 ToolkitForAndroid Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.lurencun.android.common;
 
 import java.util.regex.Pattern;
 
 /**
- * <ul>
- * <li><b>name : </b>		CommonRegex		</li>
- * <li><b>description :</b>	常正则表达式				</li>
- * <li><b>author : </b>		桥下一粒砂			</li>
- * <li><b>e-mail : </b>		chenyoca@gmail.com	</li>
- * <li><b>weibo : </b>		@桥下一粒砂			</li>
- * <li><b>date : </b>		2012-8-22 下午10:35:21		</li>
- * </ul>
+ * @author : 桥下一粒砂
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-10-23
+ * @desc   : 常正则表达式
  */
 public class CommonRegex {
 
@@ -40,6 +21,9 @@ public class CommonRegex {
 	
 	/** 中国的电话 */
 	public static final String CN_PHONE = "^((13[0-9])|(14[5-9])|(15[^4,//D])|(18[0,5-9]))\\d{8}$";
+	
+	/** Email: The Official Standard: RFC 2822 **/
+	public static final String EMAIL = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
 	
     /**
      * <b>description :</b>     执行正则表达匹配
@@ -91,6 +75,15 @@ public class CommonRegex {
      */
     public static String cleanPunctuation(String content){
         return content.replaceAll("[\\p{P}‘’“”]", content);
+    }
+    
+    /**
+     * TODO
+     * @param email
+     * @return
+     */
+    public static boolean matchEmail(String email){
+    	return null == email ? false : matcherRegex(EMAIL, email);
     }
     
     /**

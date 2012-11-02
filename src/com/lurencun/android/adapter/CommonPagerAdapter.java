@@ -8,28 +8,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * <ul>
- * <li><b>name : </b>		CommonPagerAdapter		</li>
- * <li><b>description :</b>	为ViewPager提供的通用Adapter				</li>
- * <li><b>author : </b>		桥下一粒砂			</li>
- * <li><b>e-mail : </b>		chenyoca@gmail.com	</li>
- * <li><b>weibo : </b>		@桥下一粒砂			</li>
- * <li><b>date : </b>		2012-10-15 下午6:36:15		</li>
- * </ul>
+ * @author : 桥下一粒砂
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-10-15
+ * @desc   : 为ViewPager提供的通用Adapter
+ * @param <T>
  */
 public class CommonPagerAdapter<T> extends PagerAdapter {
 
 	private List<T> mDataSet ;
-	
 	private LayoutInflater mInflater;
-	
 	private ViewCreator<T> mCreator;
+	private View mCurrentView;
 	
 	private boolean mIsForceUpdateView = false;
 	
 	public CommonPagerAdapter(LayoutInflater inf,ViewCreator<T> creator){
 		mCreator = creator;
 		mInflater = inf;
+	}
+	
+	@Override
+	public void setPrimaryItem(ViewGroup container, int position, Object object) {
+	    mCurrentView = (View)object;
 	}
 	
 	@Override
@@ -50,6 +51,10 @@ public class CommonPagerAdapter<T> extends PagerAdapter {
 	@Override
 	public int getCount() {
 		return mDataSet == null ? 0 : mDataSet.size();
+	}
+	
+	public View getCurrentView(){
+		return mCurrentView;
 	}
 	
 	public void toggleForceUpdate(boolean isForce){

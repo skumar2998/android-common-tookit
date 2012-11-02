@@ -1,31 +1,11 @@
-/**
- * Copyright (C) 2012 ToolkitForAndroid Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.lurencun.android.encrypt;
 
 import java.io.UnsupportedEncodingException;
 
 /**
- * <ul>
- * <li><b>name : </b>       Base64</li>
- * <li><b>description :</b> Base64加密解密工具</li>
- * <li><b>author : </b>     桥下一粒砂           </li>
- * <li><b>e-mail : </b>     chenyoca@gmail.com  </li>
- * <li><b>weibo : </b>      @桥下一粒砂          </li>
- * <li><b>date : </b>       2012-8-4 下午2:51:59      </li>
- * </ul>
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-10-23
+ * @desc   : Base64加密解密工具
  */
 public class Base64 {
 	
