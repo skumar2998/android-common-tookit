@@ -25,7 +25,7 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 	protected ViewCreator<T> mCreator;
 	
 	/**
-	 * </br><b>description : </b>	创建HolderAdapter，需要给定View创建接口。
+	 * </br><b>description : </b>	创建Adapter，需要给定View创建接口。
 	 * @param inflater
 	 * @param creator
 	 */
