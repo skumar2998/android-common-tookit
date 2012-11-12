@@ -151,6 +151,36 @@ public final class ActivityUtil {
 			switchTo(activity, intent);
 	}
 	
+	/**
+	 * 带返回请求进行Activity跳转
+	 * @param activity
+	 * @param targetActivity
+	 * @param requestCode
+	 */
+	public static void switchTo(Activity activity,Class<? extends Activity> targetActivity,int requestCode){
+			Intent intent = new Intent(activity,targetActivity);
+			activity.startActivityForResult(intent, requestCode);
+			activity.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+	}
+	
+	/**
+	 * 带参数和返回请求进行Activity跳转
+	 * @param activity
+	 * @param targetActivity
+	 * @param params
+	 * @param requestCode
+	 */
+	public static void switchTo(Activity activity,Class<? extends Activity> targetActivity,HashMap<String,Object> params, int requestCode){
+			Intent intent = new Intent(activity,targetActivity);
+			if( null != params ){
+				for(Map.Entry<String, Object> entry : params.entrySet()){
+					IntentUtil.setValueToIntent(intent, entry.getKey(), entry.getValue());
+				}
+			}
+			activity.startActivityForResult(intent, requestCode);
+			activity.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+	}
+	
 	public interface MessageFilter{
 		String filter(String msg);
 	}
