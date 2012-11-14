@@ -46,7 +46,7 @@ public class CommonPagerAdapter<T> extends PagerAdapter {
 		return mDataSet == null ? 0 : mDataSet.size();
 	}
 	
-	public T getDataItenAt(int position){
+	public T getDataItemAt(int position){
 		return mDataSet == null ? null : mDataSet.get(position);
 	}
 	

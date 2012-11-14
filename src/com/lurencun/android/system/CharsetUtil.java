@@ -107,4 +107,14 @@ public class CharsetUtil {
 		Matcher m = p.matcher(str);
 		return m.replaceAll("").trim();
 	}
+	
+	/**
+	 * 首字母大字
+	 * @param str
+	 * @return
+	 */
+	public static String firstCharUpper(String str){
+		String firstChar = str.substring(0, 1).toUpperCase();
+		return firstChar + str.subSequence(1, str.length());
+	}
 }

@@ -8,19 +8,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 /**
- * <ul>
- * <li><b>name : </b>		ActivityUtil		</li>
- * <li><b>description :</b>	TODO				</li>
- * <li><b>author : </b>		桥下一粒砂			</li>
- * <li><b>e-mail : </b>		chenyoca@gmail.com	</li>
- * <li><b>weibo : </b>		@桥下一粒砂			</li>
- * <li><b>date : </b>		2012-9-21 下午3:01:08		</li>
- * </ul>
+ * @author : 桥下一粒砂
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-11-13
+ * @desc   : TODO
  */
 public final class ActivityUtil {
 
@@ -104,6 +102,17 @@ public final class ActivityUtil {
 	 */
 	public static void hideSoftInput(Activity activity){
 	    activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+	}
+	
+	/**
+	 * 关闭已经显示的输入法窗口
+	 * @param c
+	 * @param focusingView 输入法所在焦点的View
+	 *
+	 */
+	public static void closeSoftInput(Context c,View focusingView){
+		InputMethodManager imm = (InputMethodManager)c.getSystemService(Context.INPUT_METHOD_SERVICE); 
+		imm.hideSoftInputFromWindow(focusingView.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
 	}
 	
 	/**
