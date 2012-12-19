@@ -14,13 +14,10 @@ import java.util.Random;
 import android.util.Log;
 
 /**
- * </br><b>name : </b>		FileUtil
- * </br><b>description :</b>通用的文件处理类
- * </br>@author : 			桥下一粒砂
- * </br><b>e-mail : </b>	chenyoca@gmail.com
- * </br><b>weibo : </b>		@桥下一粒砂
- * </br><b>date : </b>		2012-7-8 下午4:56:28
- *
+ * @author : 桥下一粒砂
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-7-8
+ * @desc   : 通用的文件处理类
  */
 public class FileUtil {
 	
@@ -152,23 +149,9 @@ public class FileUtil {
 	 * @throws IOException		如果文件夹不能被删除，则抛出异常。
 	 */
 	public static boolean deleteDirectory(String directory) throws IOException {
-		return deleteDirectory(directory, false);
-	}
-	
-	/**
-	 * </br><b>title : </b>		删除文件夹及其下内容。
-	 * </br><b>description :</b>如果文件夹被系统锁定或者文件夹不能被清空，将返回false。
-	 * </br><b>time :</b>		2012-7-8 下午5:07:00
-	 * @param directory			
-	 * @param useOSNativeDelete	 标识是否使用系统命令进行删除操作。
-	 * @return					文件夹删除成功则返回true，文件夹不存在则返回false。
-	 * @throws IOException		如果文件夹不能被删除，则抛出异常。
-	 */
-	public static boolean deleteDirectory(String directory,
-			boolean useOSNativeDelete) throws IOException {
 		boolean result = false;
-		if (!useOSNativeDelete) {
-			File dir = new File(directory);
+		File dir = new File(directory);
+		if(dir != null){
 			for (File file : dir.listFiles()) {
 				if (!file.delete()) {
 					file.deleteOnExit();
@@ -179,33 +162,45 @@ public class FileUtil {
 			} else {
 				dir.deleteOnExit();
 			}
-		} else {
-			Process process = null;
-			Thread std = null;
-			try {
-				Runtime runTime = Runtime.getRuntime();
-				if (File.separatorChar == '\\') {
-					process = runTime.exec("CMD /D /C \"RMDIR /Q /S "+ directory.replace('/', '\\') + "\"");
-				} else {
-					process = runTime.exec("rm -rf "+ directory.replace('\\', File.separatorChar));
-				}
-				std = stdOut(process);
-				while (std.isAlive()) {
-					try {
-						Thread.sleep(250);
-					} catch (Exception e) {
-					}
-				}
-				result = true;
-			} catch (Exception e) {
-				Log.e(TAG,"Error running delete script");
-			} finally {
-				if (null != process) {
-					process.destroy();
-					process = null;
-				}
-				std = null;
+		}
+		return result;
+	}
+	
+	/**
+	 * 删除文件夹及其下内容。如果文件夹被系统锁定或者文件夹不能被清空，将返回false。
+	 * @param directory
+	 * @param useOSNativeDelete 标识是否使用系统命令进行删除操作。
+	 * @return 文件夹删除成功则返回true，文件夹不存在则返回false。
+	 * @throws IOException 如果文件夹不能被删除，则抛出异常。
+	 *
+	 */
+	public static boolean deleteDirectoryWithOSNative(String directory) throws IOException {
+		boolean result = false;
+		Process process = null;
+		Thread std = null;
+		try {
+			Runtime runTime = Runtime.getRuntime();
+			if (File.separatorChar == '\\') {
+				process = runTime.exec("CMD /D /C \"RMDIR /Q /S "+ directory.replace('/', '\\') + "\"");
+			} else {
+				process = runTime.exec("rm -rf "+ directory.replace('\\', File.separatorChar));
 			}
+			std = stdOut(process);
+			while (std.isAlive()) {
+				try {
+					Thread.sleep(250);
+				} catch (Exception e) {
+				}
+			}
+			result = true;
+		} catch (Exception e) {
+			Log.e(TAG,"Error running delete script");
+		} finally {
+			if (null != process) {
+				process.destroy();
+				process = null;
+			}
+			std = null;
 		}
 		return result;
 	}
@@ -257,19 +252,27 @@ public class FileUtil {
 	}
 
 	/**
-	 * <b>description :</b>		提取文件名
-	 * </br><b>time :</b>		2012-8-16 下午7:51:40
+	 * 提取文件名
 	 * @param path
 	 * @return
 	 */
-	public static String extractFileName(String path) {
-		if( path.length() <= 5) throw new IllegalArgumentException("Path too short !");
+	public static String extractName(String path) {
+		if(path == null) return null;
 		boolean hasFileName = path.substring(path.length() - 5, path.length()).contains(".");
 		if (hasFileName) {
 			return path.substring(path.lastIndexOf(File.separator) + 1);
 		} else {
 			return null;
 		}
+	}
+	
+	/**
+	 * 导入文件后缀名
+	 * @param path
+	 * @return
+	 */
+	public static String extractSuffix(String path){
+		return path.substring(path.lastIndexOf(".") + 1);
 	}
 	
 	/**
@@ -301,6 +304,7 @@ public class FileUtil {
 	 * @throws IOException
 	 */
 	public static long getSize(File directory) throws IOException {
+		
 		File[] files = directory.listFiles();
 		long size = 0;
 		for (File f : files) {

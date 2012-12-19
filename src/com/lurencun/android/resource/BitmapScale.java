@@ -6,13 +6,10 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 
 /**
- * </br><b>name : </b>		BitmapScaleUitl
- * </br><b>description :</b>图片工具。从Android 2.2 版本的BitmapUtil中扣出来的，兼容到1.6版本
- * </br>@author : 			桥下一粒砂
- * </br><b>e-mail : </b>	chenyoca@gmail.com
- * </br><b>weibo : </b>		@桥下一粒砂
- * </br><b>date : </b>		2012-7-18 下午9:37:23
- *
+ * @author : 桥下一粒砂
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-7-18
+ * @desc   : 图片工具。从Android 2.2 版本的BitmapUtil中扣出来的，兼容到1.6版本
  */
 public class BitmapScale {
 
@@ -23,11 +20,10 @@ public class BitmapScale {
 	}
 
 	/**
-	 * <b>description :</b>		指定长度宽度进行缩放
-	 * </br><b>time :</b>		2012-8-10 下午10:29:24
-	 * @param source			源图
-	 * @param targetWidth		目标宽度
-	 * @param targetHeight		目标高度
+	 * 指定长度宽度进行缩放
+	 * @param source
+	 * @param targetWidth
+	 * @param targetHeight
 	 * @return
 	 */
 	public static Bitmap extract(Bitmap source, int targetWidth, int targetHeight) {
@@ -35,17 +31,23 @@ public class BitmapScale {
 	}
 	
 	/**
-	 * <b>description :</b>		按比例缩放
+	 * <b>description :</b>		
 	 * </br><b>time :</b>		2012-8-10 下午10:30:27
 	 * @param source			源图
 	 * @param targetWidth		目标宽度
 	 * @param targetHeight		目标高度
 	 * @return
 	 */
+	/**
+	 * 按指定比例缩放
+	 * @param source
+	 * @param targetWidth
+	 * @param targetHeight
+	 * @return
+	 */
 	public static Bitmap prorate(Bitmap source, int targetWidth, int targetHeight) {
-		if (source == null) {
-			return null;
-		}
+		if (source == null) return null;
+		
 		int srcWidth = source.getWidth();
 		int srcHeight = source.getHeight();
 		if (srcWidth < srcHeight) {

@@ -30,7 +30,6 @@ public class SDCard {
 	public static String getSDCardPath(){
 		if(!IS_MOUNTED) return null;
 		if(null != SDCARD_PATH) return SDCARD_PATH;
-		
 		File path = Environment.getExternalStorageDirectory(); 
 		String SDCardPath = path.getAbsolutePath();
 		SDCardPath += SDCardPath.endsWith(File.separator) ? "" : File.separator;

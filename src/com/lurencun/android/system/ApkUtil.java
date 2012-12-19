@@ -11,20 +11,15 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 
 /**
- * <ul>
- * <li><b>name : </b> ApkUtil</li>
- * <li><b>description :</b> APK工具</li>
- * <li><b>author : </b> 桥下一粒砂</li>
- * <li><b>e-mail : </b> chenyoca@gmail.com</li>
- * <li><b>weibo : </b> @桥下一粒砂</li>
- * <li><b>date : </b> 2012-8-11 下午8:39:13</li>
- * </ul>
+ * @author : 桥下一粒砂
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-8-11
+ * @desc   : APK相关功能帮助器类
  */
 public class ApkUtil {
 
 	/**
-	 * <b>description :</b>		判断APK包是否安装
-	 * </br><b>time :</b>		2012-8-11 下午8:39:44
+	 * 判断APK包是否已经安装
 	 * @param context
 	 * @param packageName
 	 * @return
@@ -43,8 +38,7 @@ public class ApkUtil {
 	}
 
 	/**
-	 * <b>description :</b>		安装APK
-	 * </br><b>time :</b>		2012-8-11 下午8:40:01
+	 * 安装指定APK文件
 	 * @param activity
 	 * @param apkFile
 	 */
@@ -57,12 +51,12 @@ public class ApkUtil {
 	}
 	
 	/**
-	 * <b>description :</b>		启动一个Intent
-	 * </br><b>time :</b>		2012-8-11 下午8:48:59
+	 * 启动一个指定包名的应用
 	 * @param activity
 	 * @param packageName
+	 *
 	 */
-	public static void call(Activity activity,String packageName){
+	public static void launch(Activity activity,String packageName){
 		Intent intent = activity.getPackageManager().getLaunchIntentForPackage(packageName);
 		if( null != intent ){
 			activity.startActivity(intent);

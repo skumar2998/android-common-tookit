@@ -1,8 +1,6 @@
 package com.lurencun.android.system;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,11 +12,13 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.lurencun.android.common.Params;
+
 /**
  * @author : 桥下一粒砂
  * @email  : chenyoca@gmail.com
  * @date   : 2012-11-13
- * @desc   : TODO
+ * @desc   : Activity帮助器类
  */
 public final class ActivityUtil {
 
@@ -59,17 +59,16 @@ public final class ActivityUtil {
 	 */
 	public static int getStatusBarHeight(Activity activity){
 		try {
-			Class<?> c = Class.forName("com.android.internal.R$dimen");
-			Object obj = c.newInstance();
-			Field field = c.getField("status_bar_height");
-		    int dpHeight = Integer.parseInt(field.get(obj).toString());
+			Class<?> clazz = Class.forName("com.android.internal.R$dimen");
+			Object object = clazz.newInstance();
+			Field field = clazz.getField("status_bar_height");
+		    int dpHeight = Integer.parseInt(field.get(object).toString());
 		    int pxHeight = activity.getResources().getDimensionPixelSize(dpHeight);
 		    return pxHeight;
 		} catch (Exception e1) {
 		    e1.printStackTrace();
 		    return 0;
 		} 
-		
 	}
 	
 	/**
@@ -149,27 +148,14 @@ public final class ActivityUtil {
 	 * @param targetActivity
 	 * @param params
 	 */
-	public static void switchTo(Activity activity,Class<? extends Activity> targetActivity,
-	        HashMap<String,Object> params){
-			Intent intent = new Intent(activity,targetActivity);
-			if( null != params ){
-				for(Map.Entry<String, Object> entry : params.entrySet()){
-					IntentUtil.setValueToIntent(intent, entry.getKey(), entry.getValue());
-				}
+	public static void switchTo(Activity activity,Class<? extends Activity> target,Params params){
+		Intent intent = new Intent(activity,target);
+		if( null != params ){
+			for(Params.NameValue item : params.nameValueArray){
+				IntentUtil.setValueToIntent(intent, item.name, item.value);
 			}
-			switchTo(activity, intent);
-	}
-	
-	/**
-	 * 带返回请求进行Activity跳转
-	 * @param activity
-	 * @param targetActivity
-	 * @param requestCode
-	 */
-	public static void switchTo(Activity activity,Class<? extends Activity> targetActivity,int requestCode){
-			Intent intent = new Intent(activity,targetActivity);
-			activity.startActivityForResult(intent, requestCode);
-			activity.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+		}
+		switchTo(activity, intent);
 	}
 	
 	/**
@@ -179,16 +165,28 @@ public final class ActivityUtil {
 	 * @param params
 	 * @param requestCode
 	 */
-	public static void switchTo(Activity activity,Class<? extends Activity> targetActivity,HashMap<String,Object> params, int requestCode){
-			Intent intent = new Intent(activity,targetActivity);
-			if( null != params ){
-				for(Map.Entry<String, Object> entry : params.entrySet()){
-					IntentUtil.setValueToIntent(intent, entry.getKey(), entry.getValue());
-				}
+	public static void switchTo(Activity activity,Class<? extends Activity> targetActivity,Params params, int requestCode){
+		Intent intent = new Intent(activity,targetActivity);
+		if( null != params ){
+			for(Params.NameValue item : params.nameValueArray){
+				IntentUtil.setValueToIntent(intent, item.name, item.value);
 			}
-			activity.startActivityForResult(intent, requestCode);
-			activity.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+		}
+		activity.startActivityForResult(intent, requestCode);
 	}
+	
+	/**
+	 * 带返回请求进行Activity跳转
+	 * @param activity
+	 * @param targetActivity
+	 * @param requestCode
+	 */
+	public static void switchTo(Activity activity,Class<? extends Activity> targetActivity,int requestCode){
+		Intent intent = new Intent(activity,targetActivity);
+		activity.startActivityForResult(intent, requestCode);
+	}
+	
+	
 	
 	public interface MessageFilter{
 		String filter(String msg);

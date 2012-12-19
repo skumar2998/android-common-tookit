@@ -1,7 +1,5 @@
 package com.lurencun.android.system;
 
-import java.util.Map;
-
 import android.content.Intent;
 
 /**
@@ -54,44 +52,4 @@ public class IntentUtil {
 		}
 	}
 	
-	/**
-     * </br><b>description :</b>将值设置到Intent里
-     * </br><b>time :</b>       2012-8-26 下午14:31:17
-     * @param intent           Inent对象
-     * @param params           参数Map 
-     */
-	public static void setMapValToIntent(Intent intent,Map<String,Object> params){
-	    if( null != params ){
-            for(Map.Entry<String, Object> entry : params.entrySet()){
-                IntentUtil.setValueToIntent(intent, entry.getKey(), entry.getValue());
-            }
-        }
-	}
-	
-	/**
-	 * <b>description :</b>		请求获取图片的Intent
-	 * </br><b>time :</b>		2012-8-10 下午10:03:02
-	 * @return
-	 */
-	public static Intent getImageIntent(){
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT,null);
-		intent.setType("image/*");
-		intent.putExtra("return-data", true);
-		return intent;
-	}
-	
-	/**
-	 * <b>description :</b>		请求获取正矩形图片，并进行裁剪的Intent。
-	 * </br><b>time :</b>		2012-8-10 下午10:04:36
-	 * @return
-	 */
-	public static Intent getCropImageIntent(){
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT,null);
-		intent.setType("image/*");
-		intent.putExtra("crop", "true");
-		intent.putExtra("aspectX", 1);
-		intent.putExtra("aspectY", 1);
-		intent.putExtra("return-data", true);
-		return intent;
-	}
 }

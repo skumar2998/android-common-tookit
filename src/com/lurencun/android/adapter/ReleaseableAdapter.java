@@ -7,13 +7,12 @@ import android.view.ViewGroup;
 /**
  * @author : 桥下一粒砂
  * @email  : chenyoca@gmail.com
- * @date   : 2012-9-13
+ * @date   : 2012-12-3
  * @desc   : TODO
- * @param <T>
  */
-public class CommonAdapter<T> extends AbstractAdapter<T> {
+public class ReleaseableAdapter<T> extends AbstractAdapter<T> {
 
-	public CommonAdapter(LayoutInflater inflater, ViewCreator<T> creator) {
+	public ReleaseableAdapter(LayoutInflater inflater, ViewCreator<T> creator) {
 		super(inflater, creator);
 	}
 
@@ -23,9 +22,9 @@ public class CommonAdapter<T> extends AbstractAdapter<T> {
 		if(null == convertView){
 			convertView = mCreator.createView(mInflater, pos, data);
 		}else{
-			mCreator.updateView(convertView, pos, data);
+			mCreator.releaseView(convertView, data);
+			convertView = mCreator.createView(mInflater, pos, data);
 		}
 		return convertView;
 	}
-
 }

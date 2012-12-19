@@ -12,32 +12,27 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 /**
- * </br><b>name : </b>		AssetsReader
- * </br><b>description :</b>读取Assets文件夹内的
- * </br>@author : 			桥下一粒砂
- * </br><b>e-mail : </b>	chenyoca@gmail.com
- * </br><b>weibo : </b>		@桥下一粒砂
- * </br><b>date : </b>		2012-7-8
- *
+ * 
+ * @author : 桥下一粒砂
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-7-8
+ * @desc   : 读取Assets文件夹内的数据
  */
 public class ResourceReader {
 
 	/**
-	 * </br><b>title : </b>		以InputStream方式读取文件
-	 * </br><b>description :</b>以InputStream方式读取Assets文件夹内的文件。
-	 * @param c Android环境上下文
-	 * @param fileInAssets Assets内的文件
-	 * @return IntpuStream对象
-	 * @throws IOException 
+	 * 以InputStream方式读取Assets文件夹内的文件。
+	 * @param c
+	 * @param fileInAssets
+	 * @return
+	 * @throws IOException
 	 */
 	public static InputStream readAssetsAsInputStream(Context c,String fileInAssets) throws IOException{
 		return c.getAssets().open(fileInAssets);
 	}
 	
 	/**
-	 * </br><b>title : </b>		将res文件读为Drawable对象
-	 * </br><b>description :</b>将res文件读为Drawable对象
-	 * </br><b>time :</b>		2012-7-15 下午9:13:24
+	 * 将res文件读为Drawable对象
 	 * @param c
 	 * @param resId
 	 * @return
@@ -47,25 +42,23 @@ public class ResourceReader {
 	}
 	
 	/**
-	 * </br><b>title : </b>		将res文件读为Bitmap对象
-	 * </br><b>description :</b>将res文件读为Bitmap对象
-	 * </br><b>time :</b>		2012-7-15 下午9:19:28
+	 * 将res文件读为Bitmap对象
 	 * @param c
 	 * @param resId
 	 * @return
+	 *
 	 */
 	public static Bitmap readResAsBitmap(Context c,int resId){
 		return BitmapFactory.decodeResource(c.getResources(), resId);
 	}
 	
 	/**
-	 * <b>description :</b>		读取RAW中的文件为字符串
-	 * </br><b>time :</b>		2012-9-14 上午10:08:00
+	 * 读取RAW中的文件为字符串
 	 * @param c
 	 * @param resId
 	 * @return
-	 * @throws IOException 
-	 * @throws NotFoundException 
+	 * @throws NotFoundException
+	 * @throws IOException
 	 */
 	public static String readRawAsString(Context c,int resId) throws NotFoundException, IOException{
 		return InputStreamUtil.toString(c.getResources().openRawResource(resId));

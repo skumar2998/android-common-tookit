@@ -7,25 +7,20 @@ import android.view.ViewGroup;
 /**
  * @author : 桥下一粒砂
  * @email  : chenyoca@gmail.com
- * @date   : 2012-9-13
- * @desc   : TODO
- * @param <T>
+ * @date   : 2012-12-3
+ * @desc   : 显示多少个，创建多少个。
  */
-public class CommonAdapter<T> extends AbstractAdapter<T> {
+public class SimpleAdapter<T> extends AbstractAdapter<T> {
 
-	public CommonAdapter(LayoutInflater inflater, ViewCreator<T> creator) {
+	public SimpleAdapter(LayoutInflater inflater, ViewCreator<T> creator) {
 		super(inflater, creator);
 	}
 
 	@Override
 	public View getView(int pos, View convertView, ViewGroup parent) {
-		T data = mDataCache.get(pos);
 		if(null == convertView){
-			convertView = mCreator.createView(mInflater, pos, data);
-		}else{
-			mCreator.updateView(convertView, pos, data);
+			convertView=  mCreator.createView(mInflater, pos, mDataCache.get(pos));
 		}
 		return convertView;
 	}
-
 }
