@@ -96,13 +96,25 @@ public class FileUtil {
 	 * @throws IOException		
 	 */
 	public static void save(InputStream is,String path,boolean closeInputStream) throws IOException{
-		FileOutputStream os = new FileOutputStream(new File(path));
-		byte[] cache = new byte[ 1 * 1024 ]; 
+		FileOutputStream os = new FileOutputStream(createFile(path));
+		byte[] cache = new byte[ 10 * 1024 ]; 
 		for(int len = 0;(len = is.read(cache)) != -1;){
 		    os.write(cache, 0, len);
 		}
 		os.close();
 		if(closeInputStream) is.close();
+	}
+	
+	public static File createFile(String path) throws IOException{
+		File distFile = new File(path);
+		if(!distFile.exists()){
+			File dir = distFile.getParentFile();
+			if(dir != null && !dir.exists()){
+				dir.mkdirs();
+			}
+			distFile.createNewFile();
+		}
+		return distFile;
 	}
 	
 	/**
@@ -112,7 +124,7 @@ public class FileUtil {
 	 * @param path
 	 */
 	public static void save(byte[] data,String path) throws IOException{
-		FileOutputStream os = new FileOutputStream(new File(path));
+		FileOutputStream os = new FileOutputStream(createFile(path));
 		os.write(data, 0, data.length);
 		os.close();
 	}

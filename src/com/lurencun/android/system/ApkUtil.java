@@ -1,6 +1,9 @@
 package com.lurencun.android.system;
 
 import java.io.File;
+import java.io.IOException;
+
+import com.lurencun.android.resource.FileUtil;
 
 import android.app.Activity;
 import android.content.Context;
@@ -61,5 +64,11 @@ public class ApkUtil {
 		if( null != intent ){
 			activity.startActivity(intent);
 		}
+	}
+	
+	public static void cleanAppCache(Activity activity) throws IOException{
+		String path = activity.getDir(".", Context.MODE_PRIVATE).getAbsolutePath();
+		String dir = path.substring(0, path.lastIndexOf("/") + 1);
+		FileUtil.deleteDirectory(dir);
 	}
 }

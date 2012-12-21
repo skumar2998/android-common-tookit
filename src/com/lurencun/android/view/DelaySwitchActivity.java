@@ -14,8 +14,8 @@ import com.lurencun.android.system.ActivityUtil;
  */
 public abstract class DelaySwitchActivity extends Activity {
 
-	private final Runnable switchCallback;
-	private final Handler switchHandler;
+	private Runnable switchCallback;
+	private Handler switchHandler;
 	private int splashDelay = 3 * 1000;
 	private Class<? extends Activity> nextActivity;
 	private Params params;
@@ -28,27 +28,37 @@ public abstract class DelaySwitchActivity extends Activity {
 			}
 		};
 		switchHandler = new Handler();
-		switchHandler.postDelayed(switchCallback, splashDelay);
 	}
 	
-	protected void setSplashDelay(int switchHandler){
-		splashDelay = switchHandler;
+	final protected void setSplashDelay(int delayMillis){
+		splashDelay = delayMillis;
 	}
 	
-	protected void setNextActivity(Class<? extends Activity> target){
+	final protected void setNextActivity(Class<? extends Activity> target){
 		nextActivity = target;
 	}
 	
-	protected void setParams(Params params){
+	final protected void setParams(Params params){
 		this.params = params;
 	}
 	
-	protected void cancelSwitchAction(){
+	final protected void cancelSwitchAction(){
 		switchHandler.removeCallbacks(switchCallback);
 	}
 	
-	protected void switchToNextView(){
+	final protected void switchToNextView(){
 		ActivityUtil.switchTo(this, nextActivity, params);
 		cancelSwitchAction();
+		finish();
 	}
+
+	@Override
+	final protected void onResume() {
+		super.onResume();
+		cancelSwitchAction();
+		switchHandler.postDelayed(switchCallback, splashDelay);
+		onResumeEx();
+	}
+	
+	protected void onResumeEx(){}
 }
