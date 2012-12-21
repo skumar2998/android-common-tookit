@@ -1,21 +1,9 @@
-/**
- * Copyright (C) 2012 ToolkitForAndroid Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.lurencun.android.system;
 
 import java.io.File;
+import java.io.IOException;
+
+import com.lurencun.android.resource.FileUtil;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,20 +14,15 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 
 /**
- * <ul>
- * <li><b>name : </b> ApkUtil</li>
- * <li><b>description :</b> APK工具</li>
- * <li><b>author : </b> 桥下一粒砂</li>
- * <li><b>e-mail : </b> chenyoca@gmail.com</li>
- * <li><b>weibo : </b> @桥下一粒砂</li>
- * <li><b>date : </b> 2012-8-11 下午8:39:13</li>
- * </ul>
+ * @author : 桥下一粒砂
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-8-11
+ * @desc   : APK相关功能帮助器类
  */
 public class ApkUtil {
 
 	/**
-	 * <b>description :</b>		判断APK包是否安装
-	 * </br><b>time :</b>		2012-8-11 下午8:39:44
+	 * 判断APK包是否已经安装
 	 * @param context
 	 * @param packageName
 	 * @return
@@ -58,8 +41,7 @@ public class ApkUtil {
 	}
 
 	/**
-	 * <b>description :</b>		安装APK
-	 * </br><b>time :</b>		2012-8-11 下午8:40:01
+	 * 安装指定APK文件
 	 * @param activity
 	 * @param apkFile
 	 */
@@ -72,15 +54,21 @@ public class ApkUtil {
 	}
 	
 	/**
-	 * <b>description :</b>		启动一个Intent
-	 * </br><b>time :</b>		2012-8-11 下午8:48:59
+	 * 启动一个指定包名的应用
 	 * @param activity
 	 * @param packageName
+	 *
 	 */
-	public static void call(Activity activity,String packageName){
+	public static void launch(Activity activity,String packageName){
 		Intent intent = activity.getPackageManager().getLaunchIntentForPackage(packageName);
 		if( null != intent ){
 			activity.startActivity(intent);
 		}
+	}
+	
+	public static void cleanAppCache(Activity activity) throws IOException{
+		String path = activity.getDir(".", Context.MODE_PRIVATE).getAbsolutePath();
+		String dir = path.substring(0, path.lastIndexOf("/") + 1);
+		FileUtil.deleteDirectory(dir);
 	}
 }

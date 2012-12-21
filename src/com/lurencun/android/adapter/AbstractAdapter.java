@@ -25,7 +25,7 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 	protected ViewCreator<T> mCreator;
 	
 	/**
-	 * </br><b>description : </b>	创建HolderAdapter，需要给定View创建接口。
+	 * </br><b>description : </b>	创建Adapter，需要给定View创建接口。
 	 * @param inflater
 	 * @param creator
 	 */
@@ -43,6 +43,9 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 	public void update(List<T> data){
 		clear();
 		mDataCache = data;
+	}
+	
+	public void commit(){
 		notifyDataSetChanged();
 	}
 	
@@ -53,6 +56,7 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 	public void clear(){
 		if( null != mDataCache ){
 			mDataCache.clear();
+			mDataCache = null;
 		}
 	}
 	/**
@@ -63,7 +67,16 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 	public void add(List<T> set){
 	    if( null == mDataCache ) mDataCache = new ArrayList<T>();
 	    mDataCache.addAll(set);
-	    notifyDataSetChanged();
+	}
+	
+	/**
+	 * </br><b>description :</b>添加数据元素，向数据缓存中添加单个元素。
+	 * </br><b>time :</b>		2012-7-17 下午10:19:51
+	 * @param item
+	 */
+	public void add(T item){
+	    if( null == mDataCache ) mDataCache = new ArrayList<T>();
+	    mDataCache.add(item);
 	}
 	
 	/**
@@ -82,19 +95,11 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 		T startObject = getItem(src);
 		mDataCache.set(src, endObject);
 		mDataCache.set(target, startObject);
-		notifyDataSetChanged();
-		
 	}
-
-	/**
-	 * </br><b>description :</b>添加数据元素，向数据缓存中添加单个元素。
-	 * </br><b>time :</b>		2012-7-17 下午10:19:51
-	 * @param item
-	 */
-	public void add(T item){
-	    if( null == mDataCache ) mDataCache = new ArrayList<T>();
-	    mDataCache.add(item);
-	    notifyDataSetChanged();
+	
+	public void remove(int position){
+		if(mDataCache == null) return;
+		mDataCache.remove(position);
 	}
 	
 	@Override

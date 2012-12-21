@@ -1,41 +1,24 @@
-/**
- * Copyright (C) 2012 ToolkitForAndroid Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.lurencun.android.system;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.lurencun.android.common.Params;
+
 /**
- * <ul>
- * <li><b>name : </b>		ActivityUtil		</li>
- * <li><b>description :</b>	TODO				</li>
- * <li><b>author : </b>		桥下一粒砂			</li>
- * <li><b>e-mail : </b>		chenyoca@gmail.com	</li>
- * <li><b>weibo : </b>		@桥下一粒砂			</li>
- * <li><b>date : </b>		2012-9-21 下午3:01:08		</li>
- * </ul>
+ * @author : 桥下一粒砂
+ * @email  : chenyoca@gmail.com
+ * @date   : 2012-11-13
+ * @desc   : Activity帮助器类
  */
 public final class ActivityUtil {
 
@@ -76,17 +59,16 @@ public final class ActivityUtil {
 	 */
 	public static int getStatusBarHeight(Activity activity){
 		try {
-			Class<?> c = Class.forName("com.android.internal.R$dimen");
-			Object obj = c.newInstance();
-			Field field = c.getField("status_bar_height");
-		    int dpHeight = Integer.parseInt(field.get(obj).toString());
+			Class<?> clazz = Class.forName("com.android.internal.R$dimen");
+			Object object = clazz.newInstance();
+			Field field = clazz.getField("status_bar_height");
+		    int dpHeight = Integer.parseInt(field.get(object).toString());
 		    int pxHeight = activity.getResources().getDimensionPixelSize(dpHeight);
 		    return pxHeight;
 		} catch (Exception e1) {
 		    e1.printStackTrace();
 		    return 0;
 		} 
-		
 	}
 	
 	/**
@@ -119,6 +101,17 @@ public final class ActivityUtil {
 	 */
 	public static void hideSoftInput(Activity activity){
 	    activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+	}
+	
+	/**
+	 * 关闭已经显示的输入法窗口
+	 * @param c
+	 * @param focusingView 输入法所在焦点的View
+	 *
+	 */
+	public static void closeSoftInput(Context c,View focusingView){
+		InputMethodManager imm = (InputMethodManager)c.getSystemService(Context.INPUT_METHOD_SERVICE); 
+		imm.hideSoftInputFromWindow(focusingView.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
 	}
 	
 	/**
@@ -155,16 +148,45 @@ public final class ActivityUtil {
 	 * @param targetActivity
 	 * @param params
 	 */
-	public static void switchTo(Activity activity,Class<? extends Activity> targetActivity,
-	        HashMap<String,Object> params){
-			Intent intent = new Intent(activity,targetActivity);
-			if( null != params ){
-				for(Map.Entry<String, Object> entry : params.entrySet()){
-					IntentUtil.setValueToIntent(intent, entry.getKey(), entry.getValue());
-				}
+	public static void switchTo(Activity activity,Class<? extends Activity> target,Params params){
+		Intent intent = new Intent(activity,target);
+		if( null != params ){
+			for(Params.NameValue item : params.nameValueArray){
+				IntentUtil.setValueToIntent(intent, item.name, item.value);
 			}
-			switchTo(activity, intent);
+		}
+		switchTo(activity, intent);
 	}
+	
+	/**
+	 * 带参数和返回请求进行Activity跳转
+	 * @param activity
+	 * @param targetActivity
+	 * @param params
+	 * @param requestCode
+	 */
+	public static void switchTo(Activity activity,Class<? extends Activity> targetActivity,Params params, int requestCode){
+		Intent intent = new Intent(activity,targetActivity);
+		if( null != params ){
+			for(Params.NameValue item : params.nameValueArray){
+				IntentUtil.setValueToIntent(intent, item.name, item.value);
+			}
+		}
+		activity.startActivityForResult(intent, requestCode);
+	}
+	
+	/**
+	 * 带返回请求进行Activity跳转
+	 * @param activity
+	 * @param targetActivity
+	 * @param requestCode
+	 */
+	public static void switchTo(Activity activity,Class<? extends Activity> targetActivity,int requestCode){
+		Intent intent = new Intent(activity,targetActivity);
+		activity.startActivityForResult(intent, requestCode);
+	}
+	
+	
 	
 	public interface MessageFilter{
 		String filter(String msg);
