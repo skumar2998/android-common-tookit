@@ -129,14 +129,12 @@ public class FileUtil {
 		os.close();
 	}
 	
-
 	/**
-	 * </br><b>title : </b>		移动文件
-	 * </br><b>description :</b>移动文件
-	 * </br><b>time :</b>		2012-7-8 下午5:05:00
-	 * @param source			源文件路径
-	 * @param dest				目标文件路径
+	 * 移动文件
+	 * @param source
+	 * @param dest
 	 * @throws IOException
+	 *
 	 */
 	public static void moveFile(String source, String dest) throws IOException {
 		copy(source, dest);
@@ -153,26 +151,35 @@ public class FileUtil {
 	}
 
 	/**
-	 * </br><b>title : </b>		删除文件夹及其下内容
-	 * </br><b>description :</b>删除文件夹及其下内容。如果文件夹被系统锁定或者文件夹不能被清空，将返回false。
-	 * </br><b>time :</b>		2012-7-8 下午5:06:13
-	 * @param directory			要被删除的文件夹
-	 * @return					文件夹删除成功则返回true，文件夹不存在则返回false。
-	 * @throws IOException		如果文件夹不能被删除，则抛出异常。
+	 * 删除文件夹及其下内容
+	 * @param dirPath
+	 * @return
+	 * @throws IOException
 	 */
-	public static boolean deleteDirectory(String directory) throws IOException {
+	public static boolean deleteDirectory(String dirPath) throws IOException {
+		if(dirPath == null) return false;
+		return deleteDirectory(new File(dirPath));
+	}
+	
+	/**
+	 * 删除文件夹及其下内容
+	 * @param dirFile
+	 * @return
+	 */
+	public static boolean deleteDirectory(File dirFile){
 		boolean result = false;
-		File dir = new File(directory);
-		if(dir != null){
-			for (File file : dir.listFiles()) {
-				if (!file.delete()) {
-					file.deleteOnExit();
-				} 
-			}
-			if (dir.delete()) {
-				result = true;
-			} else {
-				dir.deleteOnExit();
+		if(dirFile != null && dirFile.isDirectory()){
+			if(dirFile != null){
+				for (File file : dirFile.listFiles()) {
+					if (!file.delete()) {
+						file.deleteOnExit();
+					} 
+				}
+				if (dirFile.delete()) {
+					result = true;
+				} else {
+					dirFile.deleteOnExit();
+				}
 			}
 		}
 		return result;
